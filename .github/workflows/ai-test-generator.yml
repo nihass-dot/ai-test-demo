@@ -1,4 +1,4 @@
-name: AI Test Generator
+name: AI Test Generator (Full Repo Scan)
 
 on:
   pull_request:
@@ -26,30 +26,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run AI Test Generator
+      - name: Run AI Test Generator on Full Repository
         env:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -E '\.(py|js|ts|java|go|rs|cpp|c)$' || true)
+          echo "🔍 Starting a full repository scan..."
           
-          if [ -z "$CHANGED_FILES" ]; then
-            echo "No relevant code files changed. Exiting."
-            exit 0
-          fi
-          
-          for file in $CHANGED_FILES; do
-            echo "🤖 Processing $file..."
-            python main.py --file "$file"
-          done
+          # We now use our main.py script with the --scan flag!
+          python main.py --scan
           
           if [[ -n $(git status --porcelain) ]]; then
-            echo "✅ New tests generated. Committing..."
+            echo "✅ New tests were generated across the repository. Committing..."
             git add .
-            git commit -m "🤖 feat: Add AI-generated tests"
+            git commit -m "🤖 feat: Add AI-generated tests for full repository coverage"
             git push
           else
-            echo "ℹ️ No new tests were generated."
+            echo "ℹ️ No new tests were generated. The repository is already well covered."
           fi
