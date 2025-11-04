@@ -1,0 +1,7 @@
+pyproject.toml
+ai_test_demo.egg-info/PKG-INFO
+ai_test_demo.egg-info/SOURCES.txt
+ai_test_demo.egg-info/dependency_links.txt
+ai_test_demo.egg-info/top_level.txt
+services/data_processor.py
+tests/test_data_processor.py
