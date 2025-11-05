@@ -42,4 +42,9 @@ def find_high_value_orders(orders, threshold=100.0):
     return [order for order in orders if order.get('total_amount', 0) > threshold]
 # This is a test change to trigger the AI robot on GitHub.
 #yo
-print
+# Add this new function to services/data_processor.py
+def calculate_discount(price, discount_percentage):
+    """Calculates the final price after a discount."""
+    if not 0 <= discount_percentage <= 100:
+        raise ValueError("Discount percentage must be between 0 and 100.")
+    return price * (1 - discount_percentage / 100)
