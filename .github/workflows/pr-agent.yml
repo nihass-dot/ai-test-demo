@@ -1,0 +1,41 @@
+# This is the configuration for the CodiumAI PR-Agent
+name: "CodiumAI PR-Agent"
+
+# This tells GitHub to run the agent on every Pull Request
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+# This gives the agent permission to write comments on your PR
+permissions:
+  pull-requests: write
+  contents: read
+
+# This defines the job that will run
+jobs:
+  pr-agent:
+    runs-on: ubuntu-latest
+    name: "PR-Agent"
+    steps:
+      # This step checks out your code so the agent can analyze it
+      - name: "Checkout repository"
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # This is the main step that runs the CodiumAI agent
+      - name: "Run PR-Agent"
+        uses: Codium-ai/pr-agent@main
+        env:
+          # This tells the agent which OpenAI model to use (optional)
+          OPENAI_MODEL: "gpt-4-1106-preview"
+          # This tells the agent which model to use for reviews (optional)
+          OPENAI_REVIEW_MODEL: "gpt-4"
+        with:
+          # This is your configuration for what the agent should do
+          # You can turn features on or off here
+          pr_reviewer: true
+          test_generation: true
+          pr_description: true
+          # This tells the agent to add its suggestions as comments
+          fail_on_pr_reviewer_error: false
