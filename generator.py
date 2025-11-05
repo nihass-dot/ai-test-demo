@@ -39,7 +39,7 @@ Example:
 {{
 "language": "python",
 "framework": "pytest",
-"test_file_path": "tests/test_calculator.py",
+"test_file_path": "tests/test_dataprocessor.py",
 "test_code": "def test_calculate_average_with_empty_list():\\n    with pytest.raises(ZeroDivisionError):\\n        calculate_average([])"
 }}
 
